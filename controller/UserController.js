@@ -95,46 +95,46 @@ export default class UserController {
 
         const hash = await bcrypt.hash(new_password, 10);
 
-        const update = await user
-          .update(
-            {
-              name: name,
-              email: email,
-              password: hash,
-            },
-            where({
-              id: id,
-            })
-          )
-          .then(() => {
-            res.send({
-              message: "Data Berhasil DiUpdate",
-            });
+        const update = await User.update(
+          {
+            name: name,
+            email: email,
+            password: hash,
+          },
+          where({
+            id: id,
           })
-          .catch((error) => {
-            res.send({
-              message: "Data Gagal Diupdate",
-              error: error.message,
-            });
-          });
-      }
-
-      const updateData = await user
-        .update({
-          name: name,
-          email: email,
-        })
-        .then(() => {
-          res.send({
-            message: "Data Berhasil DiUpdate",
-          });
-        })
-        .catch((error) => {
+        ).catch((error) => {
           res.send({
             message: "Data Gagal Diupdate",
             error: error.message,
           });
         });
+
+        return res.send({
+          message: "Data Berhasil DiUpdate",
+        });
+      }
+
+      const updateData = await User.update(
+        {
+          name: name,
+          email: email,
+        },{
+          where : {
+            id : id,
+          },
+          returning : true
+        }
+      ).catch((error) => {
+        res.send({
+          message: "Data Gagal Diupdate",
+          error: error.message,
+        });
+      });
+      return res.send({
+        message: "Data Berhasil DiUpdate",
+      });
     } catch (error) {
       console.log(error);
       res.status(500).send({
@@ -150,8 +150,11 @@ export default class UserController {
 
       const user = await User.findByPk(id);
 
-      const destroy = await user
-        .destroy()
+      const destroy = await Userser.destroy({
+        where: {
+          id: id,
+        },
+      })
         .then(() => {
           res.status(200).send({
             message: "Data Berhasil Dihapus",

@@ -51,31 +51,28 @@ export default class CategoryController {
 
   async updateCategory(req, res) {
     const { id } = req.params;
-    const { category_name } = req.body;
+    const { category_name } =  req.body
     try {
-      const data = await Category.findByPk(id);
-
-      // return res.send({
-      //   data : data
-      // })
+      // const data = await Category.findByPk(id);
 
       const updateData = await Category.update(
         {
           category_name: category_name,
         },
-        where({
-          id: id,
-        })
+        {
+          where: {
+            id: id,
+          },
+        }
       ).catch((error) => {
         res.send({
-          message: "Data Gagal diupdate",
-          error: error.massage,
+          message: "Data gagal diubah",
+          error: error,
         });
       });
 
       return res.send({
-        message: "Data Berhasil Diubah",
-        request: data,
+        message: "Data Category Berhasil diubah",
       });
     } catch (error) {
       console.log(error);
@@ -85,4 +82,6 @@ export default class CategoryController {
       });
     }
   }
+
+  async 
 }
