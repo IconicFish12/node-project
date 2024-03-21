@@ -3,10 +3,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import router from "./routes.js";
+import passport from "passport";
 import sequelize from "./config.js";
 
 //basic setup
-const env = dotenv.config()
+const env = dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -22,6 +23,8 @@ app.use(
 
 app.use(bodyParser.json({ limit: 1000 }));
 app.use(router);
+app.use(passport.initialize());
+app.use(passport.session())
 
 app.use((req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -31,4 +34,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server Running in port ${PORT}`);
 });
-

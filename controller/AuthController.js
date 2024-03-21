@@ -56,13 +56,17 @@ export default class AuthController {
 
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = jwt.sign({ user_id: user.id, email }, process.env.TOKEN, {
-          expiresIn: "2h",
+          expiresIn: "1h",
         });
 
         res.status(200).header("Access-Token", token).send({
           message: "Login Success",
         });
       }
+
+      // if (null) {
+
+      // }
     } catch (error) {
       console.log(error.message);
       // res.status(500).send({

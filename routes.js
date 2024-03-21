@@ -4,7 +4,6 @@ import AuthController from "./controller/AuthController.js";
 import UserController from "./controller/UserController.js";
 import ProductController from "./controller/ProductController.js";
 import CategoryController from "./controller/CategoryController.js";
-import { loggedIn } from "./middleware.js";
 const router = express.Router();
 
 //CONTROLLER
