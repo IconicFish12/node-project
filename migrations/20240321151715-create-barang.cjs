@@ -1,37 +1,59 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Barangs', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       user_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.STRING(128),
+        references: {
+          model: 'User',
+          key: "id",
+        },
       },
       kategori_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.STRING(128),
+        references: {
+          model: 'Category',
+          key: "id",
+        },
       },
       nama_barang: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       harga_barang: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       deskripsi_barang: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       foto: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       status_lelang: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.ENUM,
+        defaultValue: "ditutup",
+        values : ["dibuka", "ditutup"]
       },
       proses: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.ENUM,
+        defaultValue: "ditutup",
+        values : ["dibuka", "ditutup"]
       },
       createdAt: {
         allowNull: false,

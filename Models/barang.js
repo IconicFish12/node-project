@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import { Model } from "sequelize";
 module.exports = (sequelize, DataTypes) => {
   class Barang extends Model {
@@ -11,18 +11,64 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Barang.init({
-    user_id: DataTypes.INTEGER,
-    kategori_id: DataTypes.INTEGER,
-    nama_barang: DataTypes.STRING,
-    harga_barang: DataTypes.INTEGER,
-    deskripsi_barang: DataTypes.STRING,
-    foto: DataTypes.STRING,
-    status_lelang: DataTypes.STRING,
-    proses: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Barang',
-  });
+  Barang.init(
+    {
+      id: {
+        allowNull: false,
+        autoIncrement: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
+      user_id: {
+        allowNull: false,
+        type: DataTypes.STRING(128),
+        references: {
+          model: 'User',
+          key: "id",
+        },
+      },
+      kategori_id: {
+        allowNull: false,
+        type: DataTypes.STRING(128),
+        references: {
+          model: 'Category',
+          key: "id",
+        },
+      },
+      nama_barang: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      harga_barang: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      deskripsi_barang: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
+      foto: {
+        allowNull: true,
+        type: DataTypes.STRING
+      },
+      status_lelang: {
+        allowNull: false,
+        type: DataTypes.ENUM,
+        defaultValue: "ditutup",
+        values : ["dibuka", "ditutup"]
+      },
+      proses: {
+        allowNull: false,
+        type: DataTypes.ENUM,
+        defaultValue: "ditutup",
+        values : ["dibuka", "ditutup"]
+      },
+    },
+    {
+      sequelize,
+      modelName: "Barang",
+    }
+  );
   return Barang;
 };

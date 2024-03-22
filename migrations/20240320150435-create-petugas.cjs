@@ -9,6 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
+        autoIncrement: false
       },
       nama_petugas: {
         allowNull: false,
